@@ -2,42 +2,42 @@ import Denomination from '@/app/model/denomination';
 import { addValue } from '@/app/model/adjustDenominations';
 import { Alert, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-type HundredProps = {
+type OneProps = {
   denomination: Denomination;
   setDenomination: (d: Denomination) => void;
 };
 
-export function Hundred({ denomination, setDenomination }: HundredProps) {
-  const addhundred = () => {
-    const result = addValue(100, denomination);
+export function One({ denomination, setDenomination }: OneProps) {
+  const addOne = () => {
+    const result = addValue(1, denomination);
     if (!result) {
-      Alert.alert('Invalid Mix', "Can't make a hundred from current bill mix");
+      Alert.alert('Invalid Mix', "Can't make a dollar from current coin mix");
       return;
     }
     setDenomination(result);
   };
 
-  const removehundred = () => {
+  const removeOne = () => {
     let workingSet: Denomination = { ...denomination };
-    if (workingSet.hundreds >= 1) {
-      workingSet.hundreds -= 1;
-      workingSet.fifties += 2;
+    if (workingSet.ones >= 1) {
+      workingSet.ones -= 1;
+      workingSet.quarters += 4;
       setDenomination(workingSet);
     } else {
-      Alert.alert('Not enough money', 'No hundreds to remove');
+      Alert.alert('Not enough money', 'No ones to remove');
     }
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={addhundred}>
+      <TouchableOpacity style={styles.button} onPress={addOne}>
         <Text style={styles.buttonText}>+</Text>
       </TouchableOpacity>
       <View style={styles.valueBox}>
-        <Text style={styles.valueText}>{denomination.hundreds}</Text>
-        <Text style={styles.labelText}>100</Text>
+        <Text style={styles.valueText}>{denomination.ones}</Text>
+        <Text style={styles.labelText}>$1</Text>
       </View>
-      <TouchableOpacity style={styles.button} onPress={removehundred}>
+      <TouchableOpacity style={styles.button} onPress={removeOne}>
         <Text style={styles.buttonText}>-</Text>
       </TouchableOpacity>
     </View>
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   button: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#607D8B',
     borderRadius: 6,
     paddingHorizontal: 16,
     paddingVertical: 8,

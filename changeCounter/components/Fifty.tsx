@@ -2,42 +2,43 @@ import Denomination from '@/app/model/denomination';
 import { addValue } from '@/app/model/adjustDenominations';
 import { Alert, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-type HundredProps = {
+type FiftyProps = {
   denomination: Denomination;
   setDenomination: (d: Denomination) => void;
 };
 
-export function Hundred({ denomination, setDenomination }: HundredProps) {
-  const addhundred = () => {
-    const result = addValue(100, denomination);
+export function Fifty({ denomination, setDenomination }: FiftyProps) {
+  const addFifty = () => {
+    const result = addValue(50, denomination);
     if (!result) {
-      Alert.alert('Invalid Mix', "Can't make a hundred from current bill mix");
+      Alert.alert('Invalid Mix', "Can't make a fifty from current bill mix");
       return;
     }
     setDenomination(result);
   };
 
-  const removehundred = () => {
+  const removeFifty = () => {
     let workingSet: Denomination = { ...denomination };
-    if (workingSet.hundreds >= 1) {
-      workingSet.hundreds -= 1;
-      workingSet.fifties += 2;
+    if (workingSet.fifties >= 1) {
+      workingSet.fifties -= 1;
+      workingSet.twenties += 2;
+      workingSet.tens += 1;
       setDenomination(workingSet);
     } else {
-      Alert.alert('Not enough money', 'No hundreds to remove');
+      Alert.alert('Not enough money', 'No fifties to remove');
     }
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button} onPress={addhundred}>
+      <TouchableOpacity style={styles.button} onPress={addFifty}>
         <Text style={styles.buttonText}>+</Text>
       </TouchableOpacity>
       <View style={styles.valueBox}>
-        <Text style={styles.valueText}>{denomination.hundreds}</Text>
-        <Text style={styles.labelText}>100</Text>
+        <Text style={styles.valueText}>{denomination.fifties}</Text>
+        <Text style={styles.labelText}>50</Text>
       </View>
-      <TouchableOpacity style={styles.button} onPress={removehundred}>
+      <TouchableOpacity style={styles.button} onPress={removeFifty}>
         <Text style={styles.buttonText}>-</Text>
       </TouchableOpacity>
     </View>
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   button: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#2196F3',
     borderRadius: 6,
     paddingHorizontal: 16,
     paddingVertical: 8,

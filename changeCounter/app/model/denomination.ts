@@ -1,4 +1,4 @@
- export default interface Denomination {
+export default interface Denomination {
   hundreds: number;
   fifties: number;
   twenties: number;
@@ -10,4 +10,5 @@
   nickels: number;
   pennies: number;
   total: number;
-};
+  [key: string]: number; // Allow for string indexing
+}
